@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PersonaData, PersonaFormData } from '@/types/persona';
 import { PersonaService } from '@/services/personaService';
+import { apiService } from '@/services/apiService';
 
 interface PersonaStore {
   // Current step
@@ -32,6 +33,12 @@ interface PersonaStore {
   deletePersonaFromDatabase: (personaId: string) => Promise<boolean>;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  
+  // API actions (alternative to direct Supabase)
+  savePersonaToAPI: (userId?: string) => Promise<boolean>;
+  loadPersonaFromAPI: (personaId: string) => Promise<boolean>;
+  loadUserPersonasFromAPI: (userId?: string) => Promise<any[]>;
+  deletePersonaFromAPI: (personaId: string) => Promise<boolean>;
 }
 
 const STORAGE_KEY = 'persona-builder-data';
