@@ -11,11 +11,26 @@ export class PersonaService {
       
       // For demo purposes, use a consistent demo user_id
       const personaWithUserId = {
-        ...personaData,
-        user_id: PersonaService.DEMO_USER_ID
+        user_id: PersonaService.DEMO_USER_ID,
+        persona_name: personaData.persona_name || 'Untitled Persona',
+        avatar_id: personaData.avatar_id || 1,
+        age_range: personaData.age_range || null,
+        education_level: personaData.education_level || null,
+        professional_sector: personaData.professional_sector || null,
+        organization_size: personaData.organization_size || null,
+        job_title: personaData.job_title || null,
+        job_measured_by: personaData.job_measured_by || null,
+        reports_to: personaData.reports_to || null,
+        goals: personaData.goals || null,
+        biggest_challenges: personaData.biggest_challenges || [],
+        responsibilities: personaData.responsibilities || null,
+        tools: personaData.tools || [],
+        communication_preference: personaData.communication_preference || null,
+        information_gathering: personaData.information_gathering || null,
+        social_networks: personaData.social_networks || []
       };
       
-      console.log('Creating persona with user_id:', personaWithUserId);
+      console.log('Creating persona with complete data:', personaWithUserId);
       
       const { data, error } = await supabase
         .from('personas')
