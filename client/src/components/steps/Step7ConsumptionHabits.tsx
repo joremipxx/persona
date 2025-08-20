@@ -65,7 +65,10 @@ const SocialNetworksSelector: React.FC<SocialNetworksSelectorProps> = ({
               )}>
                 <SocialMediaIcon 
                   network={network.network} 
-                  className="w-10 h-10 text-white"
+                  className={cn(
+                    "w-10 h-10 transition-colors duration-200",
+                    isSelected ? "text-[#8D2146]" : "text-white"
+                  )}
                 />
               </div>
               <span className={cn(

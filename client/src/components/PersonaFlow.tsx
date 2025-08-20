@@ -9,9 +9,14 @@ import { usePersonaStore } from '@/store/personaStore';
 
 export const PersonaFlow: React.FC = () => {
   const navigate = useNavigate();
-  const { updatePersonaData } = usePersonaStore();
+  const { updatePersonaData, resetPersona } = usePersonaStore();
   const [personaName, setPersonaName] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(0);
+
+  // Reset persona data when starting a new persona
+  React.useEffect(() => {
+    resetPersona();
+  }, [resetPersona]);
 
   const handleGoBack = () => {
     navigate('/');
