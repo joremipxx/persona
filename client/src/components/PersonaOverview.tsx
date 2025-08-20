@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { usePersonaStore } from '@/store/personaStore';
 import { cn } from '@/utils/cn';
 import { SocialMediaIcon } from '@/components/ui/SocialMediaIcons';
+import { supabase } from '@/lib/supabase';
 import { 
   Save, 
   Download, 
@@ -128,20 +129,29 @@ export const PersonaOverview: React.FC = () => {
     setSaveMessage('');
     
     try {
-      // For now, use a mock user ID. In a real app, this would come from authentication
-      const mockUserId = '00000000-0000-0000-0000-000000000000';
-      const success = await savePersonaToDatabase(mockUserId);
+      // Get current user from Supabase auth or use mock user
+      const { data: { user } } = await supabase.auth.getUser();
+      let userId = user?.id;
+      
+      if (!userId) {
+        // If no authenticated user, create a guest session or use service role
+        console.warn('No authenticated user found, using mock user ID');
+        userId = '00000000-0000-0000-0000-000000000000';
+      }
+      
+      const success = await savePersonaToDatabase(userId);
       
       if (success) {
         setSaveMessage('Sauvegardé dans la base de données');
       } else {
-        setSaveMessage('Échec de la sauvegarde');
+        setSaveMessage('Échec de la sauvegarde - Vérifiez la console pour plus de détails');
       }
       
-      setTimeout(() => setSaveMessage(''), 3000);
+      setTimeout(() => setSaveMessage(''), 5000);
     } catch (error) {
-      setSaveMessage('Erreur lors de la sauvegarde');
-      setTimeout(() => setSaveMessage(''), 3000);
+      console.error('Save error:', error);
+      setSaveMessage('Erreur lors de la sauvegarde - Vérifiez la console');
+      setTimeout(() => setSaveMessage(''), 5000);
     } finally {
       setIsSaving(false);
     }

@@ -4,6 +4,8 @@ export class PersonaService {
   // Create a new persona
   static async createPersona(personaData: Omit<Persona, 'id' | 'created_at' | 'updated_at'>): Promise<Persona | null> {
     try {
+      console.log('Attempting to create persona with data:', personaData);
+      
       const { data, error } = await supabase
         .from('personas')
         .insert(personaData)
@@ -11,13 +13,20 @@ export class PersonaService {
         .single();
 
       if (error) {
-        console.error('Error creating persona:', error);
+        console.error('Supabase error creating persona:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
         return null;
       }
 
+      console.log('Successfully created persona:', data);
       return data;
     } catch (error) {
-      console.error('Error creating persona:', error);
+      console.error('JavaScript error creating persona:', error);
       return null;
     }
   }
