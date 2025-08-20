@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, ArrowLeft, Plus, X, XCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Plus, X } from 'lucide-react';
 import { ProgressBar } from '@/components/ProgressBar';
 import { usePersonaStore } from '@/store/personaStore';
 import { Input } from '@/components/ui/Input';

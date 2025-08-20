@@ -106,7 +106,7 @@ export const Step7ConsumptionHabits: React.FC = () => {
   const handleNext = () => {
     updatePersonaData({
       informationGathering,
-      socialNetworks: selectedNetworks
+      socialNetworks: selectedNetworks as any
     });
     navigate('/persona-overview');
   };

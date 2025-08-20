@@ -81,7 +81,7 @@ export const Step2Demographics: React.FC = () => {
                 <Slider
                   options={AGE_RANGES}
                   value={selectedAge}
-                  onChange={setSelectedAge}
+                  onChange={(value) => setSelectedAge(value as typeof selectedAge)}
                   label="Quel âge a-t-il ?"
                 />
 
@@ -89,7 +89,7 @@ export const Step2Demographics: React.FC = () => {
                 <Slider
                   options={EDUCATION_LEVELS}
                   value={selectedEducation}
-                  onChange={setSelectedEducation}
+                  onChange={(value) => setSelectedEducation(value as typeof selectedEducation)}
                   label="Quel est le plus haut niveau d'étude ou de formation qu'il a atteint ?"
                 />
 

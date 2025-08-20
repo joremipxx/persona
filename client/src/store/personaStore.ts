@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PersonaData, PersonaFormData } from '@/types/persona';
 import { PersonaService } from '@/services/personaService';
-import { apiService } from '@/services/apiService';
+
 
 interface PersonaStore {
   // Current step
@@ -144,13 +144,13 @@ export const usePersonaStore = create<PersonaStore>()(
           
           if (persona) {
             // Transform database data back to frontend format
-            const transformedData = {
+            const transformedData: Partial<PersonaData> = {
               personaName: persona.persona_name,
               avatarId: persona.avatar_id,
-              ageRange: persona.age_range,
-              educationLevel: persona.education_level,
-              professionalSector: persona.professional_sector,
-              organizationSize: persona.organization_size,
+              ageRange: persona.age_range as PersonaData['ageRange'],
+              educationLevel: persona.education_level as PersonaData['educationLevel'],
+              professionalSector: persona.professional_sector as PersonaData['professionalSector'],
+              organizationSize: persona.organization_size as PersonaData['organizationSize'],
               jobTitle: persona.job_title,
               jobMeasuredBy: persona.job_measured_by,
               reportsTo: persona.reports_to,
@@ -158,9 +158,9 @@ export const usePersonaStore = create<PersonaStore>()(
               biggestChallenges: persona.biggest_challenges,
               responsibilities: persona.responsibilities,
               tools: persona.tools,
-              communicationPreference: persona.communication_preference,
+              communicationPreference: persona.communication_preference as PersonaData['communicationPreference'],
               informationGathering: persona.information_gathering,
-              socialNetworks: persona.social_networks
+              socialNetworks: persona.social_networks as PersonaData['socialNetworks']
             };
 
             set({ 
@@ -237,6 +237,31 @@ export const usePersonaStore = create<PersonaStore>()(
 
       setError: (error: string | null) => {
         set({ error });
+      },
+
+      // API actions (stubs for now - can be implemented when backend is ready)
+      savePersonaToAPI: async (_userId?: string) => {
+        // TODO: Implement when API backend is ready
+        console.log('savePersonaToAPI not yet implemented');
+        return false;
+      },
+
+      loadPersonaFromAPI: async (_personaId: string) => {
+        // TODO: Implement when API backend is ready
+        console.log('loadPersonaFromAPI not yet implemented');
+        return false;
+      },
+
+      loadUserPersonasFromAPI: async (_userId?: string) => {
+        // TODO: Implement when API backend is ready
+        console.log('loadUserPersonasFromAPI not yet implemented');
+        return [];
+      },
+
+      deletePersonaFromAPI: async (_personaId: string) => {
+        // TODO: Implement when API backend is ready
+        console.log('deletePersonaFromAPI not yet implemented');
+        return false;
       }
     }),
     {

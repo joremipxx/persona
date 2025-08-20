@@ -5,41 +5,10 @@ import { ArrowRight, ArrowLeft, ChevronDown } from 'lucide-react';
 import { ProgressBar } from '@/components/ProgressBar';
 import { usePersonaStore } from '@/store/personaStore';
 import { cn } from '@/utils/cn';
-
-// Professional sectors
-const PROFESSIONAL_SECTORS = [
-  'Ventes',
-  'Finance',
-  'Industrie',
-  'Investissement',
-  'Commerce de détail',
-  'Technologie',
-  'Publicité',
-  'Banque',
-  'Pharmaceutique',
-  'Marketing',
-  'Commerce / Négoce',
-  'Transport',
-  'Immobilier',
-  'Santé',
-  'Assurance',
-  'Agriculture',
-  'Construction',
-  'Alimentation & Boissons'
-];
-
-// Organization sizes
-const ORGANIZATION_SIZES = [
-  'Indépendant / Auto-entrepreneur',
-  'Petite équipe (1 à 10 personnes)',
-  'Entreprise en croissance (11 à 50 personnes)',
-  'Organisation établie (51 à 200 personnes)',
-  'Grande entreprise (201 à 1000 personnes)',
-  'Multinationale (1000+ personnes)'
-];
+import { PROFESSIONAL_SECTORS, ORGANIZATION_SIZES } from '@/types/persona';
 
 interface DropdownProps {
-  options: string[];
+  options: readonly string[];
   value: string;
   onChange: (value: string) => void;
   label: string;
@@ -163,8 +132,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 export const Step3Professional: React.FC = () => {
   const navigate = useNavigate();
   const { personaData, updatePersonaData } = usePersonaStore();
-  const [selectedSector, setSelectedSector] = useState(personaData.professionalSector || '');
-  const [selectedOrganizationSize, setSelectedOrganizationSize] = useState(personaData.organizationSize || '');
+  const [selectedSector, setSelectedSector] = useState(personaData.professionalSector || PROFESSIONAL_SECTORS[0]);
+  const [selectedOrganizationSize, setSelectedOrganizationSize] = useState(personaData.organizationSize || ORGANIZATION_SIZES[0]);
 
   const handleGoBack = () => {
     navigate('/step-2-demographics');
@@ -172,8 +141,8 @@ export const Step3Professional: React.FC = () => {
 
   const handleNext = () => {
     updatePersonaData({
-      professionalSector: selectedSector,
-      organizationSize: selectedOrganizationSize
+      professionalSector: selectedSector as typeof PROFESSIONAL_SECTORS[number],
+      organizationSize: selectedOrganizationSize as typeof ORGANIZATION_SIZES[number]
     });
     navigate('/step-4-career');
   };
@@ -234,7 +203,7 @@ export const Step3Professional: React.FC = () => {
                 <Dropdown
                   options={PROFESSIONAL_SECTORS}
                   value={selectedSector}
-                  onChange={setSelectedSector}
+                  onChange={(value) => setSelectedSector(value as typeof selectedSector)}
                   label="Dans quel secteur évolue-t-il ?"
                   placeholder="Sélectionne un secteur"
                 />
@@ -243,7 +212,7 @@ export const Step3Professional: React.FC = () => {
                 <Dropdown
                   options={ORGANIZATION_SIZES}
                   value={selectedOrganizationSize}
-                  onChange={setSelectedOrganizationSize}
+                  onChange={(value) => setSelectedOrganizationSize(value as typeof selectedOrganizationSize)}
                   label="Quelle est la taille de son organisation ?"
                   placeholder="Sélectionne une taille d'organisation"
                 />

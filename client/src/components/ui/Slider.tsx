@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { cn } from '@/utils/cn';
 
 interface SliderProps {
-  options: string[];
+  options: readonly string[];
   value: string;
   onChange: (value: string) => void;
   label: string;

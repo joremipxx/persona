@@ -243,7 +243,7 @@ export const Step6WorkStyle: React.FC = () => {
   const handleNext = () => {
     updatePersonaData({
       tools: selectedTools,
-      communicationPreference: selectedCommunication
+      communicationPreference: selectedCommunication as any
     });
     navigate('/step-7-consumption-habits');
   };

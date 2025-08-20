@@ -79,24 +79,24 @@ class ApiService {
 
   async createPersona(personaData: PersonaData, userId?: string): Promise<ApiPersona> {
     const requestData: CreatePersonaRequest = {
-      name: personaData.name,
-      age: personaData.age,
-      gender: personaData.gender,
-      location: personaData.location,
-      profession: personaData.profession,
-      industry: personaData.industry,
-      companySize: personaData.companySize,
-      experienceYears: personaData.experienceYears,
-      income: personaData.income,
-      careerLevel: personaData.careerLevel,
-      careerGoals: personaData.careerGoals,
-      challenges: personaData.challenges,
-      preferredTools: personaData.preferredTools,
-      communicationPreferences: personaData.communicationPreferences,
+      name: personaData.personaName,
+      age: 25, // Default age - could parse from ageRange string
+      gender: '', // Not collected in current form
+      location: '', // Not collected in current form
+      profession: personaData.jobTitle,
+      industry: personaData.professionalSector,
+      companySize: personaData.organizationSize,
+      experienceYears: 0, // Default value
+      income: '', // Not collected in current form
+      careerLevel: '', // Not collected in current form
+      careerGoals: [personaData.goals], // Convert string to array
+      challenges: personaData.biggestChallenges,
+      preferredTools: personaData.tools,
+      communicationPreferences: [personaData.communicationPreference], // Convert string to array
       socialNetworks: personaData.socialNetworks,
-      contentInterests: personaData.contentInterests,
-      painPoints: personaData.painPoints,
-      motivations: personaData.motivations,
+      contentInterests: [personaData.informationGathering], // Convert string to array
+      painPoints: personaData.responsibilities, // Mapping responsibilities to pain points
+      motivations: personaData.goals, // Using goals as motivations
       userId,
     };
 
@@ -122,24 +122,19 @@ class ApiService {
   async updatePersona(id: string, personaData: Partial<PersonaData>): Promise<ApiPersona> {
     const requestData: Partial<CreatePersonaRequest> = {};
     
-    if (personaData.name !== undefined) requestData.name = personaData.name;
-    if (personaData.age !== undefined) requestData.age = personaData.age;
-    if (personaData.gender !== undefined) requestData.gender = personaData.gender;
-    if (personaData.location !== undefined) requestData.location = personaData.location;
-    if (personaData.profession !== undefined) requestData.profession = personaData.profession;
-    if (personaData.industry !== undefined) requestData.industry = personaData.industry;
-    if (personaData.companySize !== undefined) requestData.companySize = personaData.companySize;
-    if (personaData.experienceYears !== undefined) requestData.experienceYears = personaData.experienceYears;
-    if (personaData.income !== undefined) requestData.income = personaData.income;
-    if (personaData.careerLevel !== undefined) requestData.careerLevel = personaData.careerLevel;
-    if (personaData.careerGoals !== undefined) requestData.careerGoals = personaData.careerGoals;
-    if (personaData.challenges !== undefined) requestData.challenges = personaData.challenges;
-    if (personaData.preferredTools !== undefined) requestData.preferredTools = personaData.preferredTools;
-    if (personaData.communicationPreferences !== undefined) requestData.communicationPreferences = personaData.communicationPreferences;
+    if (personaData.personaName !== undefined) requestData.name = personaData.personaName;
+    if (personaData.ageRange !== undefined) requestData.age = 25; // Default age mapping
+    if (personaData.jobTitle !== undefined) requestData.profession = personaData.jobTitle;
+    if (personaData.professionalSector !== undefined) requestData.industry = personaData.professionalSector;
+    if (personaData.organizationSize !== undefined) requestData.companySize = personaData.organizationSize;
+    if (personaData.goals !== undefined) requestData.careerGoals = [personaData.goals];
+    if (personaData.biggestChallenges !== undefined) requestData.challenges = personaData.biggestChallenges;
+    if (personaData.tools !== undefined) requestData.preferredTools = personaData.tools;
+    if (personaData.communicationPreference !== undefined) requestData.communicationPreferences = [personaData.communicationPreference];
     if (personaData.socialNetworks !== undefined) requestData.socialNetworks = personaData.socialNetworks;
-    if (personaData.contentInterests !== undefined) requestData.contentInterests = personaData.contentInterests;
-    if (personaData.painPoints !== undefined) requestData.painPoints = personaData.painPoints;
-    if (personaData.motivations !== undefined) requestData.motivations = personaData.motivations;
+    if (personaData.informationGathering !== undefined) requestData.contentInterests = [personaData.informationGathering];
+    if (personaData.responsibilities !== undefined) requestData.painPoints = personaData.responsibilities;
+    if (personaData.goals !== undefined) requestData.motivations = personaData.goals;
 
     return this.makeRequest<ApiPersona>(`/personas/${id}`, {
       method: 'PATCH',

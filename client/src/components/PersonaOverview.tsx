@@ -7,7 +7,6 @@ import { SocialMediaIcon } from '@/components/ui/SocialMediaIcons';
 import { 
   Save, 
   Download, 
-  Edit3,
   Calendar,
   GraduationCap,
   Building,
