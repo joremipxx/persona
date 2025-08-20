@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Clash Grotesk', system-ui, sans-serif;
+    overflow-x: hidden;
+    background-image: url('/WORLDWIDE.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    overscroll-behavior: none;
+  }
+  
+  body {
+    @apply text-secondary-900;
+    background-image: url('/WORLDWIDE.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  
+  *::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .font-anton {
+    font-family: 'Anton', sans-serif;
+  }
+  
+  .font-clash {
+    font-family: 'Clash Grotesk', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .step-content {
+    @apply space-y-6;
+  }
+  
+  .form-group {
+    @apply space-y-4;
+  }
+  
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl;
+  }
+  
+  /* Premium text shadow for better readability on backgrounds */
+  .text-shadow {
+    text-shadow: none;
+  }
+  
+  /* Enhanced shadow for premium feel */
+  .shadow-3xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .animate-fade-in-simple {
+    animation: fadeInSimple 0.5s ease-out forwards;
+  }
+  
+  @keyframes fadeInSimple {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
