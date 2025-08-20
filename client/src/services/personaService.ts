@@ -142,32 +142,57 @@ export class PersonaService {
   }
 
   // Save persona data (create or update)
-  static async savePersona(personaData: any, userId: string): Promise<Persona | null> {
+  static async savePersona(personaData: any, userId?: string): Promise<Persona | null> {
     try {
-      // Transform the data to match database schema
+      console.log('savePersona called with data:', personaData);
+      console.log('savePersona called with userId:', userId);
+      
+      // Use demo user ID if no userId provided
+      const finalUserId = userId || PersonaService.DEMO_USER_ID;
+      
+      // Transform the data to match database schema exactly
       const dbData = {
-        user_id: userId,
-        persona_name: personaData.personaName || '',
+        user_id: finalUserId,
+        persona_name: personaData.personaName || 'Untitled Persona',
         avatar_id: personaData.avatarId || 1,
-        age_range: personaData.ageRange || '',
-        education_level: personaData.educationLevel || '',
-        professional_sector: personaData.professionalSector || '',
-        organization_size: personaData.organizationSize || '',
-        job_title: personaData.jobTitle || '',
-        job_measured_by: personaData.jobMeasuredBy || '',
-        reports_to: personaData.reportsTo || '',
-        goals: personaData.goals || '',
+        age_range: personaData.ageRange || null,
+        education_level: personaData.educationLevel || null,
+        professional_sector: personaData.professionalSector || null,
+        organization_size: personaData.organizationSize || null,
+        job_title: personaData.jobTitle || null,
+        job_measured_by: personaData.jobMeasuredBy || null,
+        reports_to: personaData.reportsTo || null,
+        goals: personaData.goals || null,
         biggest_challenges: personaData.biggestChallenges || [],
-        responsibilities: personaData.responsibilities || '',
+        responsibilities: personaData.responsibilities || null,
         tools: personaData.tools || [],
-        communication_preference: personaData.communicationPreference || '',
-        information_gathering: personaData.informationGathering || '',
+        communication_preference: personaData.communicationPreference || null,
+        information_gathering: personaData.informationGathering || null,
         social_networks: personaData.socialNetworks || []
       };
 
-      // For now, always create a new persona
-      // In the future, you might want to check if one exists and update it
-      return await this.createPersona(dbData);
+      console.log('Transformed data for database:', dbData);
+
+      // Create the persona directly using Supabase
+      const { data, error } = await supabase
+        .from('personas')
+        .insert(dbData)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Supabase error in savePersona:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        return null;
+      }
+
+      console.log('Successfully saved persona:', data);
+      return data;
     } catch (error) {
       console.error('Error saving persona:', error);
       return null;
