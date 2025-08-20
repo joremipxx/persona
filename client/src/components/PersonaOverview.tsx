@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { usePersonaStore } from '@/store/personaStore';
+import { useToastContext } from '@/contexts/ToastContext';
 import { cn } from '@/utils/cn';
 import { SocialMediaIcon } from '@/components/ui/SocialMediaIcons';
 import { supabase } from '@/lib/supabase';
@@ -117,8 +118,8 @@ const DisplayTextarea: React.FC<DisplayTextareaProps> = ({ label, value, classNa
 export const PersonaOverview: React.FC = () => {
   const navigate = useNavigate();
   const { personaData, exportPersona, savePersonaToDatabase } = usePersonaStore();
+  const { success: showSuccess, error: showError } = useToastContext();
   const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState('');
 
   const handleGoBack = () => {
     navigate('/step-7-consumption-habits');
@@ -126,7 +127,6 @@ export const PersonaOverview: React.FC = () => {
 
   const handleSave = async () => {
     setIsSaving(true);
-    setSaveMessage('');
     
     try {
       // Get current user from Supabase auth or use mock user
@@ -142,16 +142,25 @@ export const PersonaOverview: React.FC = () => {
       const success = await savePersonaToDatabase(userId);
       
       if (success) {
-        setSaveMessage('Sauvegardé dans la base de données');
+        showSuccess(
+          'Persona sauvegardé avec succès !',
+          'Votre persona a été enregistré dans la base de données.',
+          5000
+        );
       } else {
-        setSaveMessage('Échec de la sauvegarde - Vérifiez la console pour plus de détails');
+        showError(
+          'Échec de la sauvegarde',
+          'Impossible de sauvegarder le persona. Vérifiez la console pour plus de détails.',
+          6000
+        );
       }
-      
-      setTimeout(() => setSaveMessage(''), 5000);
     } catch (error) {
       console.error('Save error:', error);
-      setSaveMessage('Erreur lors de la sauvegarde - Vérifiez la console');
-      setTimeout(() => setSaveMessage(''), 5000);
+      showError(
+        'Erreur de sauvegarde',
+        'Une erreur s\'est produite lors de la sauvegarde. Vérifiez la console pour plus de détails.',
+        6000
+      );
     } finally {
       setIsSaving(false);
     }
@@ -223,12 +232,6 @@ export const PersonaOverview: React.FC = () => {
               </Button>
             </div>
           </div>
-          
-          {saveMessage && (
-            <div className="mt-6">
-              <p className="text-sm text-white/80 font-medium">{saveMessage}</p>
-            </div>
-          )}
         </div>
       </header>
 

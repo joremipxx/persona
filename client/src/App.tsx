@@ -1,5 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastProvider } from '@/contexts/ToastContext';
 import { LandingPage } from '@/components/LandingPage';
 import { PersonaFlow } from '@/components/PersonaFlow';
 import { Step2Demographics } from '@/components/steps/Step2Demographics';
@@ -12,19 +13,21 @@ import { PersonaOverview } from '@/components/PersonaOverview';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/create-persona" element={<PersonaFlow />} />
-        <Route path="/step-2-demographics" element={<Step2Demographics />} />
-        <Route path="/step-3-professional" element={<Step3Professional />} />
-        <Route path="/step-4-career" element={<Step4Career />} />
-        <Route path="/step-5-work-characteristics" element={<Step5WorkCharacteristics />} />
-        <Route path="/step-6-work-style" element={<Step6WorkStyle />} />
-        <Route path="/step-7-consumption-habits" element={<Step7ConsumptionHabits />} />
-        <Route path="/persona-overview" element={<PersonaOverview />} />
-      </Routes>
-    </Router>
+    <ToastProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/create-persona" element={<PersonaFlow />} />
+          <Route path="/step-2-demographics" element={<Step2Demographics />} />
+          <Route path="/step-3-professional" element={<Step3Professional />} />
+          <Route path="/step-4-career" element={<Step4Career />} />
+          <Route path="/step-5-work-characteristics" element={<Step5WorkCharacteristics />} />
+          <Route path="/step-6-work-style" element={<Step6WorkStyle />} />
+          <Route path="/step-7-consumption-habits" element={<Step7ConsumptionHabits />} />
+          <Route path="/persona-overview" element={<PersonaOverview />} />
+        </Routes>
+      </Router>
+    </ToastProvider>
   );
 }
 
