@@ -1,14 +1,25 @@
 import { supabase, type Persona } from '@/lib/supabase';
 
 export class PersonaService {
+  // Demo user ID for testing without authentication
+  private static readonly DEMO_USER_ID = 'demo-user-12345';
+
   // Create a new persona
-  static async createPersona(personaData: Omit<Persona, 'id' | 'created_at' | 'updated_at'>): Promise<Persona | null> {
+  static async createPersona(personaData: Omit<Persona, 'id' | 'created_at' | 'updated_at' | 'user_id'>): Promise<Persona | null> {
     try {
       console.log('Attempting to create persona with data:', personaData);
       
+      // For demo purposes, use a consistent demo user_id
+      const personaWithUserId = {
+        ...personaData,
+        user_id: PersonaService.DEMO_USER_ID
+      };
+      
+      console.log('Creating persona with user_id:', personaWithUserId);
+      
       const { data, error } = await supabase
         .from('personas')
-        .insert(personaData)
+        .insert(personaWithUserId)
         .select()
         .single();
 
@@ -146,5 +157,10 @@ export class PersonaService {
       console.error('Error saving persona:', error);
       return null;
     }
+  }
+
+  // Get all demo personas (for demo mode without authentication)
+  static async getDemoPersonas(): Promise<Persona[]> {
+    return this.getPersonasByUserId(PersonaService.DEMO_USER_ID);
   }
 }
